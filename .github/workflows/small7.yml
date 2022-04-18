@@ -39,6 +39,7 @@ jobs:
         chmod +x ${{matrix.target}}.sh
         git clone -b ${{matrix.target}} https://github.com/kenzok78/small-package.git ${{matrix.target}}
         cd ${{matrix.target}}
+        shopt -s extglob
         git rm -r --cache * >/dev/null 2>&1 &
         rm -rf `find ./* -maxdepth 0 -type d ! -name "diy"` >/dev/null 2>&1
         function git_clone() (
@@ -58,7 +59,7 @@ jobs:
         mv -n `find $1/* -maxdepth 0 -type d` ./
         rm -rf $1
         }
-                (
+        (
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
         
     - name: Upload small7
