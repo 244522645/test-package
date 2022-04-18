@@ -13,7 +13,7 @@
 
 *  常用OpenWrt软件包源码合集，同步上游更新！
 
-*  通用版luci适合18.06与19.07
+*  通用版luci适合18.06与19.07以上
 
 *  关于有好的插件请在issues提交
 
@@ -33,7 +33,7 @@
 2. 或者添加下面代码到feeds.conf.default文件
 
 ```bash
- sed -i '$a src-git smpackage https://github.com/kenzok8/small-package' feeds.conf.default
+ sed -i '$a src-git smpackage https://github.com/kenzok78/small-package' feeds.conf.default
 ```
 
 
