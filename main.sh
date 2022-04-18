@@ -1,4 +1,5 @@
 #!/bin/bash
+shopt -s extglob
 function git_clone() (
   git clone --depth 1 $1 $2 || true
 )
