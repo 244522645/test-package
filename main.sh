@@ -1,7 +1,4 @@
 #!/bin/bash
-function git clone --depth 1() (
-  git clone --depth 1 $1 $2 || true
-)
 function git_sparse_clone() (
   branch="$1" rurl="$2" localdir="$3" && shift 3
   git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
