@@ -117,7 +117,6 @@ svn export https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus
 svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 svn export https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman
 svn export https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest/trunk/applications/luci-app-cloudflarespeedtest
-svn export https://github.com/Carseason/openwrt-themedog/trunk/luci/luci-themedog
 svn export https://github.com/doushang/luci-app-shortcutmenu/trunk/luci-app-shortcutmenu
 svn export https://github.com/Ysurac/openmptcprouter-feeds/trunk/luci-app-iperf
 svn export https://github.com/sirpdboy/netspeedtest/trunk/luci-app-netspeedtest
