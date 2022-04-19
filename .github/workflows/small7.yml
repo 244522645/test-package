@@ -52,17 +52,18 @@ jobs:
         cd $GITHUB_WORKSPACE/${{matrix.target}}
         git add .
         git commit -am "update $(date +%Y-%m-%d" "%H:%M:%S)"
-        git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/kenzok78/small-package.git" HEAD:${{matrix.target}}
         
-        
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2.0.1
-      continue-on-error: true
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
+        github_token: ${{secrets.ACCESS_TOKEN}}
+
+    - name: Cleanup Workflow Logs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        token: ${{ github.token }}
+        repository: ${{ github.repository }}
         retain_days: 1
-        keep_minimum_runs: 0
-
-
-
+        keep_minimum_runs: 1
 
 
