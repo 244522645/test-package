@@ -77,6 +77,7 @@ git clone --depth 1 https://github.com/walkingsky/luci-wifidog luci-app-wifidog
 git clone --depth 1 https://github.com/CCnut/feed-netkeeper && mvdir feed-netkeeper
 git clone --depth 1 https://github.com/sensec/luci-app-udp2raw
 git clone --depth 1 https://github.com/LGA1150/openwrt-sysuh3c && mvdir openwrt-sysuh3c
+git clone --depth 1 https://github.com/QiuSimons/openwrt-mos && mv -n openwrt-mos/*mosdns ./ ; rm -rf openwrt-mos
 git clone --depth 1 https://github.com/gdck/luci-app-cupsd cupsd1 && mv -n cupsd1/luci-app-cupsd cupsd1/cups/cups ./ ; rm -rf cupsd1
 git clone --depth 1 https://github.com/peter-tank/luci-app-fullconenat
 git clone --depth 1 https://github.com/sundaqiang/openwrt-packages && mv -n openwrt-packages/luci-* ./; rm -rf openwrt-packages
@@ -89,8 +90,6 @@ git clone --depth 1 -b lede https://github.com/pymumu/luci-app-smartdns
 git clone --depth 1  https://github.com/ophub/luci-app-amlogic amlogic && mv -n amlogic/luci-app-amlogic amlogic/depends/* ./;rm -rf amlogic
 git clone --depth 1 -b luci https://github.com/xiaorouji/openwrt-passwall passwall1 && mv -n passwall1/luci-app-passwall  ./; rm -rf passwall1
 
-svn export https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns
-svn export https://github.com/QiuSimons/openwrt-mos/trunk/mosdns
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-fileassistant
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-filebrowser
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-aliddns
@@ -113,7 +112,6 @@ svn export https://github.com/linkease/istore/trunk/luci/luci-app-store
 svn export https://github.com/linkease/istore-ui/trunk/app-store-ui
 svn export https://github.com/linkease/nas-packages/trunk/network/services && mvdir services
 svn export https://github.com/linkease/nas-packages-luci/trunk/luci && mvdir luci
-
 svn export https://github.com/Lienol/openwrt-package/branches/other/lean/luci-app-autoreboot
 svn export https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus
 svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
