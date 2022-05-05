@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=Argonne kenzo
 LUCI_DEPENDS:=+curl +jsonfilter
 PKG_VERSION:=2.3
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
