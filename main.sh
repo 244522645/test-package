@@ -110,7 +110,7 @@ git clone --depth 1 https://github.com/doushang/luci-app-shortcutmenu luci-short
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-fileassistant
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-filebrowser
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-aliddns
-svn export https://github.com/kenzok8/jell/trunk/luci-app-adguardhome
+svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome
 svn export https://github.com/kiddin9/openwrt-packages/trunk/adguardhome
 svn export https://github.com/kenzok8/jell/trunk/smartdns
 svn export https://github.com/kenzok8/litte/trunk/luci-theme-atmaterial_new
