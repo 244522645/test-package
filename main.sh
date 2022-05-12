@@ -112,7 +112,7 @@ svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-fileb
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-aliddns
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome
 svn export https://github.com/kiddin9/openwrt-packages/trunk/adguardhome
-svn export https://github.com/kenzok8/jell/trunk/smartdns
+svn export https://github.com/kiddin9/openwrt-packages/trunk/smartdns
 svn export https://github.com/kenzok8/litte/trunk/luci-theme-atmaterial_new
 svn export https://github.com/kenzok8/litte/trunk/luci-theme-mcat
 svn export https://github.com/kenzok8/litte/trunk/luci-theme-tomato
