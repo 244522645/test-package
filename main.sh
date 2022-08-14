@@ -122,6 +122,7 @@ svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-diskman
 svn export https://github.com/kiddin9/openwrt-packages/trunk/vsftpd-alt
 svn export https://github.com/fw876/helloworld/trunk/sagernet-core
 svn export https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus
+svn export https://github.com/fw876/helloworld/trunk/lua-neturl
 svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 svn export https://github.com/Ysurac/openmptcprouter-feeds/trunk/luci-app-iperf
 svn export https://github.com/openwrt/packages/trunk/net/shadowsocks-libev
