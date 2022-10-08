@@ -88,7 +88,6 @@ git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya
 git clone --depth 1 https://github.com/kenzok78/openwrt-minisign
 git clone --depth 1 -b 21.02 https://github.com/kenzok78/luci-theme-argonne
 git clone --depth 1 https://github.com/kenzok78/luci-app-argonne-config
-git clone --depth 1 https://github.com/kenzok78/luci-lib-ipkg
 git clone --depth 1 https://github.com/thinktip/luci-theme-neobird
 git clone --depth 1 -b lede https://github.com/pymumu/luci-app-smartdns
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic amlogic && mv -n amlogic/luci-app-amlogic ./;rm -rf amlogic
@@ -127,6 +126,7 @@ svn export https://github.com/fw876/helloworld/trunk/lua-neturl
 svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 svn export https://github.com/Ysurac/openmptcprouter-feeds/trunk/luci-app-iperf
 svn export https://github.com/openwrt/packages/trunk/net/shadowsocks-libev
+svn export https://github.com/coolsnowwolf/luci/trunk/libs/luci-lib-ipkg
 
 git_sparse_clone master "https://github.com/coolsnowwolf/packages" "leanpack" net/miniupnpd net/mwan3 multimedia/UnblockNeteaseMusic-Go \
 multimedia/UnblockNeteaseMusic net/amule net/baidupcs-web multimedia/gmediarender net/go-aliyundrive-webdav \
