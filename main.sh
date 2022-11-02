@@ -106,6 +106,7 @@ git clone --depth 1 https://github.com/sirpdboy/netspeedtest && mv -n netspeedte
 git clone --depth 1 https://github.com/sbilly/netmaker-openwrt && mv -n netmaker-openwrt/netmaker ./; rm -rf netmaker-openwrt
 git clone --depth 1 https://github.com/lisaac/luci-app-dockerman dockerman && mv -n dockerman/applications/* ./; rm -rf dockerman
 git clone --depth 1 https://github.com/doushang/luci-app-shortcutmenu luci-shortcutmenu && mv -n luci-shortcutmenu/luci-app-shortcutmenu ./ ; rm -rf luci-shortcutmenu
+git clone --depth 1 https://github.com/Huangjoe123/luci-app-eqos
 
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-fileassistant
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-filebrowser
