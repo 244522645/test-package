@@ -45,7 +45,7 @@ git clone --depth 1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk
 git clone --depth 1 https://github.com/NateLol/luci-app-beardropper
 git clone --depth 1 https://github.com/yaof2/luci-app-ikoolproxy
 git clone --depth 1 https://github.com/project-lede/luci-app-godproxy
-
+git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb
 git clone --depth 1 https://github.com/tty228/luci-app-serverchan
 git clone --depth 1 https://github.com/4IceG/luci-app-sms-tool smstool && mvdir smstool
 git clone --depth 1 https://github.com/silime/luci-app-xunlei
