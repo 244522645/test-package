@@ -113,7 +113,7 @@ svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-fileassistant
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-filebrowser
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-aliddns
-svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome
+svn export https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-adguardhome
 svn export https://github.com/kiddin9/openwrt-packages/trunk/adguardhome
 svn export https://github.com/kiddin9/openwrt-packages/trunk/smartdns
 svn export https://github.com/kenzok8/litte/trunk/luci-theme-atmaterial_new
