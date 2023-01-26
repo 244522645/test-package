@@ -108,8 +108,13 @@ git clone --depth 1 https://github.com/sbilly/netmaker-openwrt && mv -n netmaker
 git clone --depth 1 https://github.com/lisaac/luci-app-dockerman dockerman && mv -n dockerman/applications/* ./; rm -rf dockerman
 git clone --depth 1 https://github.com/doushang/luci-app-shortcutmenu luci-shortcutmenu && mv -n luci-shortcutmenu/luci-app-shortcutmenu ./ ; rm -rf luci-shortcutmenu
 git clone --depth 1 https://github.com/Huangjoe123/luci-app-eqos
-git clone --depth 1 https://github.com/sirpdboy/netspeedtest && mv -n netspeedtest/luci-app-netspeedtest ./ ; rm -rf netspeedtest
+git clone --depth 1 https://github.com/sirpdboy/netspeedtest speedtest && mv -f speedtest/*/ ./ && rm -rf speedtest
 
+svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-msd_lite
+svn export https://github.com/coolsnowwolf/packages/trunk/net/msd_lite
+svn export https://github.com/fw876/helloworld/trunk/v2raya
+svn export https://github.com/immortalwrt/packages/trunk/net/cdnspeedtest
+svn export https://github.com/immortalwrt/packages/trunk/utils/filebrowser
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass
 svn export https://github.com/kiddin9/openwrt-packages/trunk/luci-app-fileassistant
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-filebrowser
