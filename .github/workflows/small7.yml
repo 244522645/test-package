@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-latest
 
     name: Update ${{matrix.target}}
     strategy:
@@ -25,7 +25,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
       with:
-        fetch-depth: 0
+        ref: 'main'
 
     - name: Initialization environment
       run : |
@@ -43,16 +43,36 @@ jobs:
         rm -rf `find ./* -maxdepth 0 -type d ! -name "diy"` >/dev/null 2>&1
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
         
-    - name: Upload small7
-      env: 
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    # Building a multiline commit message
+    - run: echo "Commit $PKG_VERSION 1" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 2" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 3" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 4" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 5" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 6" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 7" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 8" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 9" >> commitmessage.txt
+    - run: echo "Commit $PKG_VERSION 10" >> commitmessage.txt
+
+
+    # Create a multiline string to be used by the git-auto-commit Action
+    - name: Set commit message
+      id: commit_message_step
       run: |
-        [ -e $GITHUB_WORKSPACE/LICENSE ] && cp $GITHUB_WORKSPACE/LICENSE $GITHUB_WORKSPACE/${{matrix.target}}
-        [ -e $GITHUB_WORKSPACE/README.md ] && cp $GITHUB_WORKSPACE/README.md $GITHUB_WORKSPACE/${{matrix.target}}
-        cd $GITHUB_WORKSPACE/${{matrix.target}}
-        git add .
-        git commit -am "update $(date +%Y-%m-%d" "%H:%M:%S)"
-        git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/kenzok78/small-package.git" HEAD:${{matrix.target}}
+        echo 'commit_message<<EOF' >> $GITHUB_OUTPUT
+        cat commitmessage.txt >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
+
+    # Quick and dirty step to get rid of the temporary file holding the commit message
+    - run: rm -rf commitmessage.txt
+
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      id: commit
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        commit_message: ${{ steps.commit_message_step.outputs.commit_message }}	
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
