@@ -60,7 +60,8 @@ jobs:
     - name: Set commit message
       id: commit_message_step
       run: |
-        echo 'commit_message<<EOF' >> $GITHUB_OUTPUT
+        echo 'commit_$PKG_VERSION<<EOF' >> $GITHUB_OUTPUT
+        echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
         cat commitmessage.txt >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
 
@@ -72,7 +73,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        commit_message: ${{ steps.commit_message_step.outputs.commit_message }}	
+        commit_message: ${{ steps.commit_message_step.outputs.version }}
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
