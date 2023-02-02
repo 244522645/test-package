@@ -44,23 +44,16 @@ jobs:
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
         
     # Building a multiline commit message
-    - run: echo "Commit $PKG_VERSION 1" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 2" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 3" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 4" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 5" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 6" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 7" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 8" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 9" >> commitmessage.txt
-    - run: echo "Commit $PKG_VERSION 10" >> commitmessage.txt
+    - run: echo "Commit Message 1" >> commitmessage.txt
+    - run: echo "Commit Message 2" >> commitmessage.txt
+    - run: echo "Commit Message 3" >> commitmessage.txt
 
 
     # Create a multiline string to be used by the git-auto-commit Action
     - name: Set commit message
       id: commit_message_step
       run: |
-        echo 'commit_$PKG_VERSION<<EOF' >> $GITHUB_OUTPUT
+        echo 'commit_message<<EOF' >> $GITHUB_OUTPUT
         echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
         cat commitmessage.txt >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
@@ -73,7 +66,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        commit_message: ${{ steps.commit_message_step.outputs.version }}
+        commit_message:  "update to ${{ steps.update.outputs.version }}"	
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
