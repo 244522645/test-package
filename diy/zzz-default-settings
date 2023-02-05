@@ -71,4 +71,3 @@ rm -rf /usr/lib/lua/luci/view/admin_status/index
 rm -rf /tmp/luci-*cache
 
 exit 0
-luciversion='date'
