@@ -49,7 +49,6 @@ jobs:
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
         sed -i 's/luciversion = "v$date1"/luciversion = "Feb"/g' diy/zzz-default-settings
         sed -i 's/luciversion = "v$date1"/luciversion = "Feb"/g' diy/default-settings
-        echo "Feb=$(date +'%m.%d')" >> diy/default-settings
 
     - name: Upload packages
       env: 
