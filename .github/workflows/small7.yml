@@ -3,7 +3,7 @@ name: Sync packages
 on:
   push:
     paths:
-      - '.github/workflows/small7.yml'
+      - '.github/workflows/test7.yml'
       - 'diy/**'
   schedule:
     - cron: 0 */12 * * *
@@ -33,40 +33,33 @@ jobs:
         git config --global user.name "github-actions[bot]"
         sudo timedatectl set-timezone "Asia/Shanghai"
         
+    - name: current date
+      id: date
+      run: |
+        echo "Feb=$(date +'%m.%d')" >> $GITHUB_ENV        
+        
     - name: Clone packages
       run: |
         cd $GITHUB_WORKSPACE
         chmod +x ${{matrix.target}}.sh
-        git clone -b ${{matrix.target}} https://github.com/kenzok78/small-package.git ${{matrix.target}}
+        git clone -b ${{matrix.target}} https://github.com/kenzok78/test-package.git ${{matrix.target}}
         cd ${{matrix.target}}
         git rm -r --cache * >/dev/null 2>&1 &
         rm -rf `find ./* -maxdepth 0 -type d ! -name "diy"` >/dev/null 2>&1
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
+        sed -i 's/luciversion = "v$date1"/luciversion = "Feb"/g' diy/zzz-default-settings
         
-    # Building a multiline commit message
-    - run: echo "Commit Message 1" >> commitmessage.txt
-    - run: echo "Commit Message 2" >> commitmessage.txt
-    - run: echo "Commit Message 3" >> commitmessage.txt
-
-
-    # Create a multiline string to be used by the git-auto-commit Action
-    - name: Set commit message
-      id: commit_message_step
+    - name: Upload packages
+      env: 
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
-        echo 'commit_message<<EOF' >> $GITHUB_OUTPUT
-        echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
-        cat commitmessage.txt >> $GITHUB_OUTPUT
-        echo 'EOF' >> $GITHUB_OUTPUT
+        [ -e $GITHUB_WORKSPACE/LICENSE ] && cp $GITHUB_WORKSPACE/LICENSE $GITHUB_WORKSPACE/${{matrix.target}}
+        [ -e $GITHUB_WORKSPACE/README.md ] && cp $GITHUB_WORKSPACE/README.md $GITHUB_WORKSPACE/${{matrix.target}}
+        cd $GITHUB_WORKSPACE/${{matrix.target}}
+        git add .
+        git commit -am "update $(date +%Y-%m-%d" "%H:%M:%S)"
+        git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/kenzok8/test-package.git" HEAD:${{matrix.target}}
 
-    # Quick and dirty step to get rid of the temporary file holding the commit message
-    - run: rm -rf commitmessage.txt
-
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      id: commit
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        commit_message:  "update to ${{ steps.update.outputs.version }}"	
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
