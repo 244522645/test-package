@@ -36,7 +36,7 @@ jobs:
     - name: current date
       id: date
       run: |
-        echo "Feb=$(date +'%m.%d')" >> $GITHUB_ENV        
+        echo "Feb=$(date +'%m.%d')" >> $GITHUB_ENV
         
     - name: Clone packages
       run: |
@@ -48,7 +48,9 @@ jobs:
         rm -rf `find ./* -maxdepth 0 -type d ! -name "diy"` >/dev/null 2>&1
         $GITHUB_WORKSPACE/${{matrix.target}}.sh
         sed -i 's/luciversion = "v$date1"/luciversion = "Feb"/g' diy/zzz-default-settings
-        
+        sed -i 's/luciversion = "v$date1"/luciversion = "Feb"/g' diy/default-settings
+        echo "Feb=$(date +'%m.%d')" >> diy/default-settings
+
     - name: Upload packages
       env: 
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
