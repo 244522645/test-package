@@ -13,7 +13,7 @@ PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://dianne.skoll.ca/projects/rp-pppoe/download
-PKG_HASH:=skip
+PKG_HASH:=7825232f64ab4d618ef074d62d145ae43d6edc91b9a718c6130a4742bac40e2a
 
 PKG_MAINTAINER:=
 PKG_LICENSE:=LGPL-2.0-or-later
