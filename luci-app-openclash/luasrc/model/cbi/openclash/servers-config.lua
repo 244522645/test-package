@@ -335,7 +335,6 @@ o:depends("type", "ssr")
 
 -- AlterId
 o = s:option(Value, "alterId", translate("AlterId"))
-o.datatype = "port"
 o.default = "32"
 o.rmempty = true
 o:depends("type", "vmess")
@@ -361,6 +360,13 @@ o:depends("type", "trojan")
 o:depends({type = "snell", snell_version = "3"})
 o:depends("type", "wireguard")
 
+o = s:option(ListValue, "udp_over_tcp", translate("udp-over-tcp"))
+o.rmempty = true
+o.default = "false"
+o:value("true")
+o:value("false")
+o:depends("type", "ss")
+
 o = s:option(ListValue, "xudp", translate("XUDP Enable")..translate("(Only Meta Core)"))
 o.rmempty = true
 o.default = "true"
@@ -377,6 +383,7 @@ o:value("tls")
 o:value("http")
 o:value("websocket", translate("websocket (ws)"))
 o:value("shadow-tls", translate("shadow-tls")..translate("(Only Meta Core)"))
+o:value("restls", translate("restls")..translate("(Only Meta Core)"))
 o:depends("type", "ss")
 
 o = s:option(ListValue, "obfs_snell", translate("obfs-mode"))
@@ -389,8 +396,8 @@ o:depends("type", "snell")
 
 o = s:option(ListValue, "obfs_vless", translate("obfs-mode"))
 o.rmempty = true
-o.default = "none"
-o:value("none")
+o.default = "tcp"
+o:value("tcp", translate("tcp"))
 o:value("ws", translate("websocket (ws)"))
 o:value("grpc", translate("grpc"))
 o:depends("type", "vless")
@@ -421,12 +428,25 @@ o:depends("obfs", "tls")
 o:depends("obfs", "http")
 o:depends("obfs", "websocket")
 o:depends("obfs", "shadow-tls")
+o:depends("obfs", "restls")
 o:depends("obfs_snell", "tls")
 o:depends("obfs_snell", "http")
 
 o = s:option(Value, "obfs_password", translate("obfs-password"))
 o.rmempty = true
 o:depends("obfs", "shadow-tls")
+o:depends("obfs", "restls")
+
+o = s:option(ListValue, "obfs_version_hint", translate("version-hint"))
+o.rmempty = true
+o:value("tls13")
+o:value("tls12")
+o:depends("obfs", "restls")
+
+o = s:option(Value, "obfs_restls_script", translate("restls-script"))
+o.rmempty = true
+o:depends("obfs", "restls")
+o.placeholder = translate("1000?100<1,500~100,350~100,600~100,400~200")
 
 -- vmess路径
 o = s:option(Value, "path", translate("path"))
@@ -468,6 +488,37 @@ o.placeholder = translate("Host: v2ray.com")
 o:depends("obfs_vmess", "websocket")
 o:depends("obfs_vless", "ws")
 
+o = s:option(Value, "vless_flow", translate("flow"))
+o.rmempty = true
+o.default = "xtls-rprx-direct"
+o:value("xtls-rprx-direct")
+o:value("xtls-rprx-origin")
+o:value("xtls-rprx-vision")
+o:depends("obfs_vless", "tcp")
+
+-- [[ grpc ]]--
+o = s:option(Value, "grpc_service_name", translate("grpc-service-name"))
+o.rmempty = true
+o.datatype = "host"
+o.placeholder = translate("example")
+o:depends("obfs_trojan", "grpc")
+o:depends("obfs_vmess", "grpc")
+o:depends("obfs_vless", "grpc")
+
+-- [[ reality-public-key ]]--
+o = s:option(Value, "reality_public_key", translate("public-key(reality)"))
+o.rmempty = true
+o.placeholder = translate("CrrQSjAG_YkHLwvM2M-7XkKJilgL5upBKCp0od0tLhE")
+o:depends("obfs_vless", "grpc")
+o:depends("obfs_vless", "tcp")
+
+-- [[ reality-short-id ]]--
+o = s:option(Value, "reality_short_id", translate("short-id(reality)"))
+o.rmempty = true
+o.placeholder = translate("10f897e26c4b9478")
+o:depends("obfs_vless", "grpc")
+o:depends("obfs_vless", "tcp")
+
 o = s:option(Value, "max_early_data", translate("max-early-data"))
 o.rmempty = true
 o.placeholder = translate("2048")
@@ -495,14 +546,6 @@ o:depends("type", "vless")
 o:depends("type", "hysteria")
 o:depends("type", "tuic")
 
-o = s:option(ListValue, "fast_open", translate("Fast Open"))
-o.rmempty = true
-o.default = "false"
-o:value("true")
-o:value("false")
-o:depends("type", "hysteria")
-o:depends("type", "tuic")
-
 -- [[ TLS ]]--
 o = s:option(ListValue, "tls", translate("TLS"))
 o.rmempty = true
@@ -523,13 +566,6 @@ o:depends({obfs_vmess = "websocket", tls = "true"})
 o:depends({obfs_vmess = "grpc", tls = "true"})
 o:depends({obfs_vmess = "none", tls = "true"})
 o:depends("type", "vless")
-
-o = s:option(Value, "vless_flow", translate("flow"))
-o.rmempty = true
-o.default = "xtls-rprx-direct"
-o:value("xtls-rprx-direct")
-o:value("xtls-rprx-origin")
-o:depends("obfs_vless", "none")
 
 o = s:option(Value, "keep_alive", translate("keep-alive"))
 o.rmempty = true
@@ -557,7 +593,6 @@ o:depends("type", "hysteria")
 
 -- [[ headers ]]--
 o = s:option(DynamicList, "http_headers", translate("headers"))
-o.description = translate("Only Meta Core")
 o.rmempty = true
 o.placeholder = translate("User-Agent: okhttp/3.11.0 Dalvik/2.1.0 ...... ")
 o:depends("type", "http")
@@ -587,15 +622,6 @@ o.rmempty = false
 o:value("h3")
 o:value("h2")
 o:depends("type", "hysteria")
-
--- [[ grpc ]]--
-o = s:option(Value, "grpc_service_name", translate("grpc-service-name"))
-o.rmempty = true
-o.datatype = "host"
-o.placeholder = translate("example")
-o:depends("obfs_trojan", "grpc")
-o:depends("obfs_vmess", "grpc")
-o:depends("obfs_vless", "grpc")
 
 -- [[ trojan-ws-path ]]--
 o = s:option(Value, "trojan_ws_path", translate("Path"))
@@ -693,11 +719,36 @@ o:value("true")
 o:value("false")
 o:depends("type", "vmess")
 
+-- [[ TFO ]]--
+o = s:option(ListValue, "fast_open", translate("Fast Open"))
+o.rmempty = true
+o.default = "true"
+o:value("true")
+o:value("false")
+o:depends("type", "hysteria")
+o:depends("type", "tuic")
+
+-- [[ TFO ]]--
+o = s:option(ListValue, "tfo", translate("TFO")..translate("(Only Meta Core)"))
+o.rmempty = true
+o.default = "true"
+o:value("true")
+o:value("false")
+o:depends("type", "http")
+o:depends("type", "socks5")
+o:depends("type", "trojan")
+o:depends("type", "vless")
+o:depends("type", "vmess")
+o:depends("type", "ss")
+o:depends("type", "ssr")
+o:depends("type", "snell")
+
 -- [[ fingerprint ]]--
 o = s:option(Value, "fingerprint", translate("Fingerprint")..translate("(Only Meta Core)"))
 o.rmempty = true
 o:depends("type", "hysteria")
 o:depends("type", "socks5")
+o:depends("type", "http")
 o:depends("type", "trojan")
 o:depends("type", "vless")
 o:depends({type = "ss", obfs = "websocket"})
@@ -709,19 +760,22 @@ o:depends({type = "vmess", obfs_vmess = "grpc"})
 -- [[ client-fingerprint ]]--
 o = s:option(ListValue, "client_fingerprint", translate("Client Fingerprint")..translate("(Only Meta Core)"))
 o.rmempty = true
-o:value("random")
+o:value("none")
 o:value("chrome")
 o:value("firefox")
 o:value("safari")
-o.default = "random"
+o:value("ios")
+o.default = "none"
 o:depends("type", "vless")
+o:depends({type = "ss", obfs = "restls"})
+o:depends({type = "ss", obfs = "shadow-tls"})
 o:depends({type = "trojan", obfs_vmess = "grpc"})
 o:depends({type = "vmess", obfs_vmess = "websocket"})
 o:depends({type = "vmess", obfs_vmess = "http"})
 o:depends({type = "vmess", obfs_vmess = "h2"})
 o:depends({type = "vmess", obfs_vmess = "grpc"})
 
--- [[ client-fingerprint ]]--
+-- [[ ip version ]]--
 o = s:option(ListValue, "ip_version", translate("IP Version")..translate("(Only Meta Core)"))
 o.rmempty = true
 o:value("dual")

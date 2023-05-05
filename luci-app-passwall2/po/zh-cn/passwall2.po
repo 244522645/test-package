@@ -31,6 +31,9 @@ msgstr "节点列表"
 msgid "Other Settings"
 msgstr "高级设置"
 
+msgid "Load Balancing"
+msgstr "负载均衡"
+
 msgid "Enter interface"
 msgstr "进入界面"
 
@@ -76,6 +79,9 @@ msgstr "清除"
 msgid "Main switch"
 msgstr "主开关"
 
+msgid "Node"
+msgstr "节点"
+
 msgid "Edit Current Node"
 msgstr "编辑当前节点"
 
@@ -112,14 +118,11 @@ msgstr "直连 DNS"
 msgid "Direct DNS DoH"
 msgstr "直连 DNS DoH"
 
+msgid "Direct DNS EDNS Client Subnet"
+msgstr "直连 DNS EDNS Client Subnet"
+
 msgid "Remote DNS Protocol"
 msgstr "远程 DNS 协议"
-
-msgid "Only Proxy FakeDNS"
-msgstr "仅代理 FakeDNS"
-
-msgid "When selected, only FakeDNS domain to proxy."
-msgstr "当勾选时，只会代理 FakeDNS 域名。"
 
 msgid "Remote DNS"
 msgstr "远程 DNS"
@@ -136,11 +139,23 @@ msgstr "用于 DNS 查询时通知 DNS 服务器，客户端所在的地理位�
 msgid "This feature requires the DNS server to support the Edns Client Subnet (RFC7871)."
 msgstr "此功能需要 DNS 服务器支持 EDNS Client Subnet（RFC7871）。"
 
-msgid "Query Strategy"
-msgstr "查询策略"
+msgid "Direct Query Strategy"
+msgstr "直连查询策略"
+
+msgid "Remote Query Strategy"
+msgstr "远程查询策略"
+
+msgid "Use FakeDNS work in the shunt domain that proxy."
+msgstr "需要代理的分流规则域名使用 FakeDNS。"
 
 msgid "Domain Override"
 msgstr "域名重写"
+
+msgid "Clear IPSET"
+msgstr "清空 IPSET"
+
+msgid "Try this feature if the rule modification does not take effect."
+msgstr "如果修改规则后没有生效，请尝试此功能。"
 
 msgid "About DNS issues:"
 msgstr "关于DNS问题："
@@ -148,8 +163,8 @@ msgstr "关于DNS问题："
 msgid "Some browsers may have built-in DNS, be sure to close. Example: Chrome. Settings - Security and Privacy - Security - Use secure DNS disabled."
 msgstr "部分浏览器可能有内置的DNS，请务必关闭。如：chrome。 设置 - 安全和隐私设置 - 使用安全 DNS 关闭。"
 
-msgid "Sometimes after restart, you can not internet. At this time, close all browsers (important), Windows Client, please `ipconfig / flushdns`. Please close the WiFi on the phone, cut the flight mode and then cut back."
-msgstr "有时候重启后，上不了。这时请先关闭所有浏览器（重要），Windows客户端请`ipconfig/flushdns`。手机端请关闭WIFI，切一下飞行模式再切回来。"
+msgid "Sometimes after restart, you can not internet. At this time, close all browsers (important), Windows Client, please `ipconfig /flushdns`. Please close the WiFi on the phone, cut the flight mode and then cut back."
+msgstr "有时候重启后，上不了。这时请先关闭所有浏览器（重要），Windows客户端请`ipconfig /flushdns`。手机端请关闭WIFI，切一下飞行模式再切回来。"
 
 msgid "The client DNS and the default gateway must point to this router."
 msgstr "客户端DNS和默认网关必须指向本路由器。"
@@ -268,6 +283,15 @@ msgstr "Xray 负载均衡"
 msgid "V2ray_balancing"
 msgstr "V2ray 负载均衡"
 
+msgid "Balancing Strategy"
+msgstr "负载均衡策略"
+
+msgid "Probe Interval"
+msgstr "探测间隔"
+
+msgid "The interval between initiating probes. Every time this time elapses, a server status check is performed on a server. The time format is numbers + units, such as '10s', '2h45m', and the supported time units are <code>ns</code>, <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code>, <code>h</code>, which correspond to nanoseconds, microseconds, milliseconds, seconds, minutes, and hours, respectively."
+msgstr "发起探测的间隔。每经过这个时间，就会对一个服务器进行服务器状态检测。时间格式为数字+单位，比如<code>&quot;10s&quot;</code>, <code>&quot;2h45m&quot;</code>，支持的时间单位有 <code>ns</code>，<code>us</code>，<code>ms</code>，<code>s</code>，<code>m</code>，<code>h</code>，分别对应纳秒、微秒、毫秒、秒、分、时。"
+
 msgid "Shunt"
 msgstr "分流"
 
@@ -364,6 +388,9 @@ msgstr "证书路径"
 msgid "Finger Print"
 msgstr "指纹伪造"
 
+msgid "Avoid using randomized, unless you have to."
+msgstr "避免使用 randomized , 除非你必须要。"
+
 msgid "Original"
 msgstr "原版"
 
@@ -396,6 +423,9 @@ msgstr "QUIC 连接接收窗口"
 
 msgid "Disable MTU detection"
 msgstr "禁用 MTU 检测"
+
+msgid "Lazy Start"
+msgstr "延迟启动"
 
 msgid "Encrypt Method"
 msgstr "加密"
@@ -582,6 +612,66 @@ msgstr "通过关键字删除备用节点列表的节点"
 
 msgid "Please enter the node keyword, pay attention to distinguish between spaces, uppercase and lowercase."
 msgstr "请输入节点关键字，注意区分空格、大写和小写。"
+
+msgid "Enable Load Balancing"
+msgstr "开启负载均衡"
+
+msgid "Console Username"
+msgstr "控制台账号"
+
+msgid "Console Password"
+msgstr "控制台密码"
+
+msgid "Console Port"
+msgstr "控制台端口"
+
+msgid "In the browser input routing IP plus port access, such as:192.168.1.1:1188"
+msgstr "在浏览器输入路由IP加端口访问，如：192.168.1.1:1188"
+
+msgid "Haproxy Port"
+msgstr "负载均衡端口"
+
+msgid "Health Check Type"
+msgstr "健康检查类型"
+
+msgid "Inner implement"
+msgstr "内置实现"
+
+msgid "Health Check Inter"
+msgstr "健康检查节点间隔时间"
+
+msgid "When the availability test is used, the load balancing node will be converted into a Socks node. when node list set customizing, must be a Socks node, otherwise the health check will be invalid."
+msgstr "当使用可用性测试时，负载均衡节点将转换成Socks节点。下面的节点列表自定义时必须为Socks节点，否则健康检查将无效。"
+
+msgid "Add a node, Export Of Multi WAN Only support Multi Wan. Load specific gravity range 1-256. Multiple primary servers can be load balanced, standby will only be enabled when the primary server is offline! Multiple groups can be set, Haproxy port same one for each group."
+msgstr "添加节点，指定出口功能是为多WAN用户准备的。负载比重范围1-256。多个主服务器可以负载均衡，备用只有在主服务器离线时才会启用！可以设置多个组，负载均衡端口相同则为一组。"
+
+msgid "Note that the node configuration parameters for load balancing must be consistent when use TCP health check type, otherwise it cannot be used normally!"
+msgstr "注意，当使用TCP健康检查时负载均衡的节点配置参数必须一致，否则无法正常使用！"
+
+msgid "Node Address"
+msgstr "节点地址"
+
+msgid "Node Port"
+msgstr "节点端口"
+
+msgid "Node Weight"
+msgstr "负载比重"
+
+msgid "Export Of Multi WAN"
+msgstr "多WAN指定出口"
+
+msgid "Main"
+msgstr "主要"
+
+msgid "Mode"
+msgstr "模式"
+
+msgid "Primary"
+msgstr "主要"
+
+msgid "Standby"
+msgstr "备用"
 
 msgid "Manually update"
 msgstr "手动更新"
@@ -844,8 +934,8 @@ msgstr "从文件中加载 IP: 形如'ext:file:tag'，必须以ext:（小写）�
 msgid "Clear logs"
 msgstr "清空日志"
 
-msgid "Need node support required"
-msgstr "需要节点支持"
+msgid "Only recommend to use with VLESS-TCP-XTLS-Vision."
+msgstr "只推荐与 VLESS-TCP-XTLS-Vision 搭配使用。"
 
 msgid "Password"
 msgstr "密码"
@@ -856,8 +946,8 @@ msgstr "IV 检查"
 msgid "UDP over TCP"
 msgstr "TCP 封装 UDP"
 
-msgid "Need Xray server side with Shadowsocks-2022 protocol"
-msgstr "需要 Xray 作服务器端的 Shadowsocks-2022 协议"
+msgid "Need Xray-core or sing-box as server side."
+msgstr "需要 Xray-core 或者 sing-box 作为服务器端。"
 
 msgid "Connection Timeout"
 msgstr "连接超时时间"
@@ -865,11 +955,8 @@ msgstr "连接超时时间"
 msgid "Local Port"
 msgstr "本地端口"
 
-msgid "TCP Fast Open"
-msgstr "TCP快速打开"
-
-msgid "Need node support required"
-msgstr "需要节点支持"
+msgid "Fast Open"
+msgstr "快速打开"
 
 msgid "plugin"
 msgstr "插件"
@@ -924,6 +1011,9 @@ msgstr "额外的对称加密密钥"
 
 msgid "Local Address"
 msgstr "本地地址"
+
+msgid "Decimal numbers separated by \",\" or Base64-encoded strings."
+msgstr "用“,”隔开的十进制数字或 Base64 编码字符串。"
 
 msgid "Camouflage Type"
 msgstr "伪装类型"
@@ -1026,6 +1116,12 @@ msgstr "自定义 Socks"
 
 msgid "Custom HTTP"
 msgstr "自定义 HTTP"
+
+msgid "Custom Interface"
+msgstr "自定义接口"
+
+msgid "Interface"
+msgstr "接口"
 
 msgid "Bind Local"
 msgstr "本机监听"
@@ -1141,6 +1237,9 @@ msgstr "无法移动新文件到：%s"
 msgid "Mux concurrency"
 msgstr "最大并发连接数"
 
+msgid "XUDP Mux concurrency"
+msgstr "XUDP 最大并发连接数"
+
 msgid "Mux idle timeout"
 msgstr "最大闲置时间"
 
@@ -1184,4 +1283,19 @@ msgid "Buffer size for every connection (kB)"
 msgstr "每一个连接的缓冲区大小（kB）"
 
 msgid "Custom geoip URL"
-msgstr "自定义geo文件更新链接"
+msgstr "自定义geoip文件更新链接"
+
+msgid "Custom geosite URL"
+msgstr "自定义geosite文件更新链接"
+
+msgid "Handshake Timeout"
+msgstr "握手超时 "
+
+msgid "Idle Timeout"
+msgstr "空闲超时 "
+
+msgid "Hop Interval"
+msgstr "端口跳跃时间 "
+
+msgid "Additional ports for hysteria hop"
+msgstr "端口跳跃额外端口"

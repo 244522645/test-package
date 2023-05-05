@@ -281,7 +281,12 @@ yml_servers_set()
    config_get "packet_addr" "$section" "packet_addr" ""
    config_get "client_fingerprint" "$section" "client_fingerprint" ""
    config_get "ip_version" "$section" "ip_version" ""
-
+   config_get "tfo" "$section" "tfo" ""
+   config_get "udp_over_tcp" "$section" "udp_over_tcp" ""
+   config_get "reality_public_key" "$section" "reality_public_key" ""
+   config_get "reality_short_id" "$section" "reality_short_id" ""
+   config_get "obfs_version_hint" "$section" "obfs_version_hint" ""
+   config_get "obfs_restls_script" "$section" "obfs_restls_script" ""
    
    if [ "$enabled" = "0" ]; then
       return
@@ -343,6 +348,8 @@ yml_servers_set()
          obfss="plugin: v2ray-plugin"
       elif [ "$obfs" = "shadow-tls" ]; then
         obfss="plugin: shadow-tls"
+      elif [ "$obfs" = "restls" ]; then
+        obfss="plugin: restls"
       else
          obfss="plugin: obfs"
       fi
@@ -356,6 +363,10 @@ yml_servers_set()
    
    if [ "$obfs_vless" = "grpc" ]; then
       obfs_vless="network: grpc"
+   fi
+
+   if [ "$obfs_vless" = "tcp" ]; then
+      obfs_vless="network: tcp"
    fi
    
    if [ "$obfs_vmess" = "websocket" ]; then
@@ -401,12 +412,17 @@ cat >> "$SERVER_FILE" <<-EOF
     udp: $udp
 EOF
      fi
+     if [ ! -z "$udp_over_tcp" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    udp-over-tcp: $udp_over_tcp
+EOF
+     fi
      if [ ! -z "$obfss" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     $obfss
     plugin-opts:
 EOF
-    if [ "$obfs" != "shadow-tls" ]; then
+    if [ "$obfs" != "shadow-tls" ] && [ "$obfs" != "restls" ]; then
 cat >> "$SERVER_FILE" <<-EOF
       mode: $obfs
 EOF
@@ -419,12 +435,29 @@ EOF
         if [  "$obfss" = "plugin: shadow-tls" ]; then
            if [ ! -z "$obfs_password" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-      password: $obfs_password
+      password: "$obfs_password"
 EOF
            fi
            if [ ! -z "$fingerprint" ]; then
 cat >> "$SERVER_FILE" <<-EOF
       fingerprint: "$fingerprint"
+EOF
+           fi
+        fi
+        if [  "$obfss" = "plugin: restls" ]; then
+           if [ ! -z "$obfs_password" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      password: "$obfs_password"
+EOF
+           fi
+           if [ ! -z "$obfs_version_hint" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      version-hint: "$obfs_version_hint"
+EOF
+           fi
+           if [ ! -z "$obfs_restls_script" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      restls-script: "$obfs_restls_script"
 EOF
            fi
         fi
@@ -918,7 +951,7 @@ cat >> "$SERVER_FILE" <<-EOF
     servername: "$servername"
 EOF
       fi
-      if [ "$obfs_vless" != "none" ]; then
+      if [ -n "$obfs_vless" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     $obfs_vless
 EOF
@@ -945,12 +978,43 @@ cat >> "$SERVER_FILE" <<-EOF
     grpc-opts:
       grpc-service-name: "$grpc_service_name"
 EOF
+            if [ -n "$reality_public_key" ] || [ -n "$reality_short_id" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    reality-opts:
+EOF
+            fi
+            if [ -n "$reality_public_key" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      public-key: "$reality_public_key"
+EOF
+            fi
+            if [ -n "$reality_short_id" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      short-id: "$reality_short_id"
+EOF
+            fi
          fi
-      else
-         if [ ! -z "$vless_flow" ]; then
+         if [ "$obfs_vless" = "network: tcp" ]; then
+            if [ ! -z "$vless_flow" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     flow: "$vless_flow"
 EOF
+            fi
+            if [ -n "$reality_public_key" ] || [ -n "$reality_short_id" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    reality-opts:
+EOF
+            fi
+            if [ -n "$reality_public_key" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      public-key: "$reality_public_key"
+EOF
+            fi
+            if [ -n "$reality_short_id" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+      short-id: "$reality_short_id"
+EOF
+            fi
          fi
       fi
    fi
@@ -1133,18 +1197,25 @@ cat >> "$SERVER_FILE" <<-EOF
     ip-version: "$ip_version"
 EOF
    fi
-   
+
+#TFO
+   if [ ! -z "$tfo" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    tfo: $tfo
+EOF
+   fi
+
 #interface-name
    if [ -n "$interface_name" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    interface-name: $interface_name
+    interface-name: "$interface_name"
 EOF
    fi
 
 #routing_mark
    if [ -n "$routing_mark" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    routing-mark: $routing_mark
+    routing-mark: "$routing_mark"
 EOF
    fi
 }
@@ -1375,11 +1446,39 @@ cat >> "$SERVER_FILE" <<-EOF
       - Proxy
 EOF
 cat >> "$SERVER_FILE" <<-EOF
+  - name: ChatGPT
+    type: select
+    proxies:
+      - Proxy
+      - DIRECT
+EOF
+cat /tmp/Proxy_Server >> $SERVER_FILE 2>/dev/null
+if [ -f "/tmp/Proxy_Provider" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    use:
+EOF
+fi
+cat /tmp/Proxy_Provider >> $SERVER_FILE 2>/dev/null
+cat >> "$SERVER_FILE" <<-EOF
   - name: Apple
     type: select
     proxies:
       - DIRECT
       - Proxy
+EOF
+cat /tmp/Proxy_Server >> $SERVER_FILE 2>/dev/null
+if [ -f "/tmp/Proxy_Provider" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    use:
+EOF
+fi
+cat /tmp/Proxy_Provider >> $SERVER_FILE 2>/dev/null
+cat >> "$SERVER_FILE" <<-EOF
+  - name: Apple TV
+    type: select
+    proxies:
+      - Proxy
+      - DIRECT
 EOF
 cat /tmp/Proxy_Server >> $SERVER_FILE 2>/dev/null
 if [ -f "/tmp/Proxy_Provider" ]; then
@@ -1707,9 +1806,11 @@ ${uci_set}HBOMax="HBO Max"
 ${uci_set}HBOGo="HBO Go"
 ${uci_set}Pornhub="Pornhub"
 ${uci_set}Apple="Apple"
+${uci_set}AppleTV="Apple TV"
 ${uci_set}GoogleFCM="Google FCM"
 ${uci_set}Scholar="Scholar"
 ${uci_set}Microsoft="Microsoft"
+${uci_set}ChatGPT="ChatGPT"
 ${uci_set}Netflix="Netflix"
 ${uci_set}Discovery="Discovery Plus"
 ${uci_set}DAZN="DAZN"
@@ -1741,17 +1842,19 @@ ${uci_set}Others="Others"
 	${UCI_DEL_LIST}="Netflix" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Netflix" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Discovery Plus" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Discovery Plus" >/dev/null 2>&1
 	${UCI_DEL_LIST}="DAZN" >/dev/null 2>&1 && ${UCI_ADD_LIST}="DAZN" >/dev/null 2>&1
-	${UCI_DEL_LIST}="Apple" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Apple" >/dev/null 2>&1
+  ${UCI_DEL_LIST}="ChatGPT" >/dev/null 2>&1 && ${UCI_ADD_LIST}="ChatGPT" >/dev/null 2>&1
+  ${UCI_DEL_LIST}="Apple TV" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Apple TV" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Google FCM" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Google FCM" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Scholar" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Scholar" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Disney" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Disney" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Spotify" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Spotify" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Steam" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Steam" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Telegram" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Telegram" >/dev/null 2>&1
-   ${UCI_DEL_LIST}="Crypto" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Crypto" >/dev/null 2>&1
-   ${UCI_DEL_LIST}="Discord" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Discord" >/dev/null 2>&1
+  ${UCI_DEL_LIST}="Crypto" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Crypto" >/dev/null 2>&1
+  ${UCI_DEL_LIST}="Discord" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Discord" >/dev/null 2>&1
 	${UCI_DEL_LIST}="PayPal" >/dev/null 2>&1 && ${UCI_ADD_LIST}="PayPal" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Speedtest" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Speedtest" >/dev/null 2>&1
+  ${UCI_DEL_LIST}="Others" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Others" >/dev/null 2>&1
 }
 elif [ "$rule_sources" = "ConnersHua_return" ] && [ "$servers_if_update" != "1" ] && [ -z "$if_game_proxy" ]; then
 LOG_OUT "Creating By Using ConnersHua Return Rules..."
@@ -1837,7 +1940,6 @@ if [ -z "$if_game_proxy" ]; then
    rm -rf $PROXY_PROVIDER_FILE 2>/dev/null
    rm -rf /tmp/yaml_groups.yaml 2>/dev/null
    LOG_OUT "Config File【$CONFIG_NAME】Write Successful!"
-   sleep 3
    SLOG_CLEAN
 fi
 rm -rf /tmp/Proxy_Server 2>/dev/null

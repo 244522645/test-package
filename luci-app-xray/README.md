@@ -6,6 +6,14 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 
 ## Warnings
 
+* Since version 2.0.0 this project is split into `fw3` and `fw4` variants and **this breaks compatibility**:
+    * Configuration files and init scripts are renamed. Manually refill configurations or run `mv /etc/config/xray /etc/config/xray_fw4` (for fw4, similar for fw3) for migration.
+    * installation method is changed. See `Installation` below for details.
+    * `fw3` variant is no longer in active development. It is strongly recommended to use `fw4` variant.
+* About experimental REALITY support
+    * may change quite frequently so keep in mind about following warnings
+    * server role support **involves breaking changes if you use HTTPS server**: certificate settings are now bound to stream security, so previously uploaded certificate and key files will disappear in LuCI, but this won't prevent Xray from using them. Your previously uploaded file are still there, just select them again in LuCI. If Xray fails to start up and complains about missing certificate files, also try picking them again.
+    * legacy XTLS support has already been removed in version 1.8.0 and is also removed by this project since version 2.0.0.
 * Since OpenWrt 22.03 release, the recommended firewall implementation for this project is now **firewall4** with some caveats
     * currently this project still works on OpenWrt 19.07 / 21.02 versions. There's a warning about missing `kmod-nft-tproxy` when using these versions, just ignore it. This problem will be fixed later.
     * support for versions mentioned above will soon be **deprecated**, which means that most new features won't be implemented for these old versions. Check changelog for details about future changes and availability of various new features.
@@ -24,11 +32,25 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 * For OpenWrt 19.07 releases, you need to prepare your own xray-core package (just download from [Releases · yichya/openwrt-xray](https://github.com/yichya/openwrt-xray/releases) and install that) because building Xray from source requires Go 1.17 which is currently only available in at least OpenWrt 21.02 releases.
 * This project may change its code structure, configuration files format, user interface or dependencies quite frequently since it is still in its very early stage. 
 
+## Installation
+
+Choose one below:
+
+* Add `src-git-full luci_app_xray https://github.com/yichya/luci-app-xray` to `feeds.conf.default` and run `./scripts/feeds update -a; ./scripts/feeds install -a` 
+* Clone this repository under `package`
+
+Then find `luci-app-xray` under `Extra Packages`.
+
 ## Changelog 2023
 
 * 2023-01-01 feat: optional restart of dnsmasq on interface change
 * 2023-01-18 `[OpenWrt 22.03 or above only]` feat: option to ignore TP_SPEC_DEF_GW
 * 2023-01-23 `[OpenWrt 22.03 or above only]` feat: custom configurations in outbounds. Say if you want to try [XTLS/Xray-core#1540](https://github.com/XTLS/Xray-core/pull/1540) before its release, you can specify `{"streamSettings": {"tlsSettings": {"fingerprint": "xray_random"}}}` in "Custom Options" tab of the corresponding outbound. See the help text in LuCI ui for the rules of configuration override.
+* 2023-03-10 `[OpenWrt 22.03 or above only]` feat: experimental REALITY support
+* 2023-03-11 feat: h2 read_idle_timeout and health_check_timeout settings
+* 2023-04-03 feat: split this project into `fw3` and `fw4` variants
+* 2023-04-17 chore: provide prebuilt packages for `fw4` variant
+* 2023-04-29 fix: make `fw3` variant actually usable; add REALITY support for `fw3` variant
 
 ## Changelog 2022
 

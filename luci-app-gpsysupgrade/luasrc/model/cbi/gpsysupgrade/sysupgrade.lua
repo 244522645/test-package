@@ -60,6 +60,10 @@ function to_check()
 		model = "rockchip_armv8/friendlyarm_nanopi-r5s"
 		check_update()
 		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-rockchip-armv8-friendlyarm_nanopi-r5s-squashfs-sysupgrade.img.gz"
+    elseif board_name:match("nanopi%-r5c$") then
+		model = "rockchip_armv8/friendlyarm_nanopi-r5c"
+		check_update()
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-rockchip-armv8-friendlyarm_nanopi-r5c-squashfs-sysupgrade.img.gz"
     elseif board_name:match("nanopi%-r4se$") then
 		model = "rockchip_armv8/friendlyarm_nanopi-r4se"
 		check_update()
@@ -363,11 +367,11 @@ function to_check()
     elseif board_name:match("r619ac%-64m$") then
 		model = "ipq40xx_generic/p2w_r619ac-64m"
 		check_update()
-		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-ipq40xx-generic-p2w_r619ac-64m-squashfs-nand-sysupgrade.bin"
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-ipq40xx-generic-p2w_r619ac-64m-squashfs-sysupgrade.bin"
     elseif board_name:match("r619ac%-128m$") then
 		model = "ipq40xx_generic/p2w_r619ac-128m"
 		check_update()
-		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-ipq40xx-generic-p2w_r619ac-128m-squashfs-nand-sysupgrade.bin"
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-ipq40xx-generic-p2w_r619ac-128m-squashfs-sysupgrade.bin"
     elseif board_name:match("rt%-ac42u$") then
 		model = "ipq40xx_generic/asus_rt-ac42u"
 		check_update()
@@ -560,10 +564,22 @@ function to_check()
 		model = "ath79_nand/zte_mf286"
 		check_update()
 		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-ath79-nand-zte_mf286-squashfs-sysupgrade.bin"
-    elseif board_name:match("mt7981$") then
-		model = "mediatek_gl/mt7981"
+    elseif board_name:match("gl%-mt2500$") then
+		model = "mt7981/glinet-mt2500"
 		check_update()
-		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-mediatek_gl-mt7981-glinet_gl-mt2500-squashfs-sysupgrade.bin"
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-mediatek-mt7981-glinet_gl-mt2500-squashfs-sysupgrade.bin"
+    elseif board_name:match("gl%-mt3000$") then
+		model = "mt7981/glinet-mt3000"
+		check_update()
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-mediatek-mt7981-glinet_gl-mt3000-squashfs-sysupgrade.bin"
+    elseif board_name:match("gl%-x3000$") then
+		model = "mt7981/glinet-x3000"
+		check_update()
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-mediatek-mt7981-glinet_gl-x3000-squashfs-sysupgrade.bin"
+    elseif board_name:match("gl%-xe3000$") then
+		model = "mt7981/glinet-xe3000"
+		check_update()
+		download_url = "https://op.supes.top/firmware/" ..model.. "/" ..remote_version.. "-openwrt-mediatek-mt7981-glinet_gl-xe3000-squashfs-sysupgrade.bin"
     else
 		local needs_update = false
 		return {
